@@ -11,13 +11,13 @@ router = APIRouter(prefix="/user", tags=["user"])
 
 
 @router.get("/")
-async def all_users(db: Annotated[Session, Depends(get_db())]):
+async def all_users(db: Annotated[Session, Depends(get_db)]):
     users = db.scalars(select(User)).all()
     return users
 
 
 @router.get("/user_id")
-async def user_by_id(db: Annotated[Session, Depends(get_db())], user_id: int):
+async def user_by_id(db: Annotated[Session, Depends(get_db)], user_id: int):
     user = db.scalar(select(User).where(User.id == user_id))
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
@@ -26,7 +26,7 @@ async def user_by_id(db: Annotated[Session, Depends(get_db())], user_id: int):
 
 
 @router.post("/create")
-async def create_user(db: Annotated[Session, Depends(get_db())], create_user: CreateUser):
+async def create_user(db: Annotated[Session, Depends(get_db)], create_user: CreateUser):
     if not User.id or User.username:
         db.execute(insert(User).values(
             username=create_user.username,
@@ -42,7 +42,7 @@ async def create_user(db: Annotated[Session, Depends(get_db())], create_user: Cr
 
 
 @router.put("/update")
-async def update_user(db: Annotated[Session, Depends(get_db())], user_id: int, update_user: UpdateUser):
+async def update_user(db: Annotated[Session, Depends(get_db)], user_id: int, update_user: UpdateUser):
     user = db.scalar(select(User).where(User.id == user_id))
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
@@ -58,7 +58,7 @@ async def update_user(db: Annotated[Session, Depends(get_db())], user_id: int, u
 
 
 @router.delete("/delete")
-async def delete_user(db: Annotated[Session, Depends(get_db())], user_id: int):
+async def delete_user(db: Annotated[Session, Depends(get_db)], user_id: int):
     user = db.scalar(select(User).where(User.id == user_id))
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
