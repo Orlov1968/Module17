@@ -36,7 +36,7 @@ async def create_user(db: Annotated[Session, Depends(get_db)], create_user: Crea
             slug=slugify(create_user.username))
         )
     else:
-        raise HTTPException(status_code=status.HTTP_405_METHOD_NOT_ALLOWED,
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail="User was found")
 
     db.commit()
