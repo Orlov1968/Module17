@@ -69,4 +69,4 @@ async def delete_task(db: Annotated[Session, Depends(get_db)], task_id: int):
                             detail="User was not found")
     db.execute(delete(Task).where(Task.id == task_id))
     db.commit()
-    return {"status_code": status.HTTP_200_OK, "transaction": "User delete is successful"}
+    return {"status_code": status.HTTP_200_OK, "transaction": "Task delete is successful"}
